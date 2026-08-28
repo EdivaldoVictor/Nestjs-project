@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Param,Put, Post, Body, Delete, ParseIntPipe} from '@nestjs/common';
+import { Controller, Get, Query, Param,Put, Post, Body, Delete, ParseIntPipe, UseGuards} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
+import { RoleGuard } from 'src/guards/role.guard';
 // Do not export entity types from controller method signatures
 
 
@@ -31,6 +32,7 @@ export class UserController {
     }
 
   @Delete(':id')
+  @UseGuards(RoleGuard)
   deleteUser(@Param('id') id: string): any {
     return this.userService.deleteUser(Number(id));
   }
